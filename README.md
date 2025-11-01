@@ -47,4 +47,4 @@ For a `Station`, the `data` attribute contains a list of all loaded dataframes c
 `Station`s are uniquely read & stored in a `Reader` object; typically a single `Reader` should be used across code rather than several.
 
 ### Other notes
-A `Reader` has an attribute `units`, which is a dictionary mapping column names to their units (as specified in )
+A `Reader` has an attribute `units`, which is a dictionary mapping column names to their units (as specified in [header.csv](./wtxmeso/data/header.csv)).
