@@ -57,12 +57,12 @@ class Reader:
         if _city[-3] == " " and (st:=_city[-2:]).isupper(): # Handle both "City, ST" and "City ST" formats
             _state = st
             _city = _city[:-3].split(",")[0]
-        # else:
-        #     print(_city, _county[-3], _county[-2:])
+
         _relocations = []
         if not pd.isna(s["Prevoius IDs"]):
             for ident, lat, lon, d in zip(s["Prevoius IDs"].split("//"), s["Prev. Lat-decimals"].split("//"), s["Prev. Lon-decimals"].split("//"), s["Dates of Relocation (UTC YYYYMMDD)"].split("//")):
                 _relocations.append((ident, float(lat), float(lon), date.fromisoformat(d))) # date is UTC
+                
         station = Station(
             name = s["Location"],
             city = _city,
