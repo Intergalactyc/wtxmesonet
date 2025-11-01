@@ -1,8 +1,8 @@
 # WTXmeso
 
-Data loading functions for (West Texas Mesonet)[https://www.mesonet.ttu.edu/] data.
+Data loading functions for [West Texas Mesonet](https://www.mesonet.ttu.edu/) data.
 
-Does not provide any a
+Does not provide access to the data itself, only helpful functions for reading data files which you already have access to.
 
 ## Usage instructions
 
