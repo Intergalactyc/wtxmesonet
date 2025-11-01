@@ -1,3 +1,5 @@
 numpy
 pandas
 pre-commit
+xlrd
+matplotlib

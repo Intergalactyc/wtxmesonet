@@ -1,0 +1,30 @@
+ID,Column,Units,Inclusion
+1,UTC Date,YYYYMMDD,all
+2,UTC Time,HHMM,all
+3,Station ID,#,all
+4,10m WS scalar,m/s,atmospheric
+5,10m WS vector,m/s,atmospheric
+6,10m WD,degrees,atmospheric
+7,WD Standard Deviation,degrees,atmospheric
+8,WS Standard Deviation,m/s,atmospheric
+9,10m Peak Gust,m/s,atmospheric
+10,1.5m Temp,deg C,atmospheric
+11,9m Temp,deg C,atmospheric
+12,2m Temp,deg C,atmospheric
+13,1.5m RH,%,atmospheric
+14,barometric pressure,mb,atmospheric
+15,Precip,inches,atmospheric
+16,1.5m Dewpoint,deg C,atmospheric
+17,2m WS,m/s,atmospheric
+18,2m Solar Radiation,W/m^2,atmospheric
+19,20ft WS,m/s,atmospheric
+20,5cm Natural Soil Temperature,deg C,agricultural
+21,10cm Natural Soil Temperature,deg C,agricultural
+22,20cm Natural Soil Temperature,deg C,agricultural
+23,5cm Bare Soil Temperature,deg C,agricultural
+24,20cm Bare Soil Temperature,deg C,agricultural
+25,5cm Soil Water Content,m^3/m^3,agricultural
+26,20cm Soil Water Content,m^3/m^3,agricultural
+27,60cm Soil Water Content,m^3/m^3,agricultural
+28,75cm Soil Water Content,m^3/m^3,agricultural
+29,Leaf Wetness,%,agricultural
