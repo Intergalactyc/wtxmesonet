@@ -2,7 +2,9 @@ from .station import Station
 import os
 import pathlib
 import pandas as pd
-from datetime import date, datetime
+from datetime import date
+import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
 
 _HEADER = pd.read_csv(pathlib.Path(__file__).parent.joinpath("data").joinpath("header.csv"), index_col="ID")
 _all_columns = list(_HEADER["Column"])
@@ -106,3 +108,72 @@ class Reader:
             df, name = self.load_file(os.path.join(path, f), _tup=True)
             result[name] = df
         return result
+
+    def plot(self, figsize=(10.,6.), padding=0.5):
+        station_longitudes = [s.longitude for s in self.stations]
+        station_latitudes = [s.latitude for s in self.stations]
+        station_names = [s.name for s in self.stations]
+        station_position_map = {(lon, lat) : s for lon, lat, s in zip(station_longitudes, station_latitudes, self.stations)}
+
+        fig, ax = plt.subplots(figsize=figsize)
+
+        m = Basemap(
+            llcrnrlon = min(station_longitudes)-padding,
+            urcrnrlon = max(station_longitudes)+padding,
+            llcrnrlat = min(station_latitudes)-padding,
+            urcrnrlat = max(station_latitudes)+padding,
+            resolution="l",
+            ax=ax
+        )
+        m.drawcoastlines()
+        m.drawcounties()
+        m.drawstates()
+        m.drawcountries()
+        m.drawrivers(linewidth=0.2, color="tab:blue")
+
+        sc = m.scatter(station_longitudes, station_latitudes, 10, marker="o", color="tab:red", picker=True)
+
+        annot = ax.annotate(
+            "",
+            xy=(0, 0),
+            xytext=(10, 10),
+            textcoords="offset points",
+            bbox=dict(boxstyle="round", fc="w"),
+            arrowprops=dict(arrowstyle="->"),
+        )
+        annot.set_visible(False)
+
+        def on_pick(event):
+            artist = event.artist
+            ind = event.ind[0]
+            offsets = artist.get_offsets()
+            x, y = offsets[ind]
+            if (pos:=(x, y)) in station_position_map:
+                s = station_position_map[pos]
+                s.plot()
+            else:
+                print(pos, "not found")
+
+        def update_annot(ind):
+            i = ind["ind"][0]
+            x, y = sc.get_offsets()[i]
+            annot.xy = (x, y)
+            annot.set_text(station_names[i])
+            annot.get_bbox_patch().set_alpha(0.8)
+
+        def hover(event):
+            vis = annot.get_visible()
+            if event.inaxes == ax:
+                cont, ind = sc.contains(event)
+                if cont:
+                    update_annot(ind)
+                    annot.set_visible(True)
+                    fig.canvas.draw_idle()
+                elif vis:
+                    annot.set_visible(False)
+                    fig.canvas.draw_idle()
+
+        fig.canvas.mpl_connect("motion_notify_event", hover)
+        fig.canvas.callbacks.connect('pick_event', on_pick)
+
+        plt.show()
