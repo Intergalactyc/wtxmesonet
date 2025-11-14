@@ -5,6 +5,7 @@ import pandas as pd
 from datetime import date
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
+import numpy as np
 
 _HEADER = pd.read_csv(pathlib.Path(__file__).parent.joinpath("data").joinpath("header.csv"), index_col="ID")
 _all_columns = list(_HEADER["Column"])
@@ -81,6 +82,11 @@ class Reader:
         self.stations_map[station.id] = station
         return
 
+    def _qc(self, df: pd.DataFrame) -> pd.DataFrame:
+        if "Precip" in df.columns:
+            df.loc[df["Precip"] > 1.5, "Precip"] = np.nan # World record rainfall in 1 minute is 1.23 in. - discard rainfall measurements > 1.5 in.
+        return df
+
     def load_file(self, path: os.PathLike, name: str = None, *, _tup: bool = False) -> pd.DataFrame:
         if not os.path.isfile(path):
             raise FileNotFoundError(f"File {path} not found")
@@ -93,6 +99,9 @@ class Reader:
 
         if name is None: # default is to infer name (station ID) from filename
             name = "".join(os.path.basename(path).split(".")[:-1])
+
+        df = self._qc(df)
+
         self.stations_map[name].add_data(df)
 
         if _tup:
@@ -109,7 +118,7 @@ class Reader:
             result[name] = df
         return result
 
-    def plot(self, figsize=(10.,6.), padding=0.5):
+    def plot(self, figsize=(11.,6.5), padding=0.5):
         station_longitudes = [s.longitude for s in self.stations]
         station_latitudes = [s.latitude for s in self.stations]
         station_names = [s.name for s in self.stations]
