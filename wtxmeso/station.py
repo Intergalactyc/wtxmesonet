@@ -59,6 +59,7 @@ class StationPlot:
         # "20ft WS"
         #ax.errorbar(self.df.index, self.df["10m WS scalar"], self.df["WS Standard Deviation"], marker="o", markersize=1, linewidth=0, capsize=1, label="10m Wind Speed")
         ax.scatter(self.df.index, self.df["10m WS scalar"], marker="o", s=1, c="tab:blue", label="10m Wind Speed")
+        # ax.scatter(self.df.index, self.df["10m WD"], marker="o", s=1, c="tab:blue", label="10m Wind Direction")
         ax.scatter(self.df.index, self.df["10m Peak Gust"], marker="o", s=1, c="tab:red", label="10m Peak Gust")
         ax.set_xlabel(self.xlabel)
         ax.set_ylabel(f"Wind Speed ({u_.WS})")
