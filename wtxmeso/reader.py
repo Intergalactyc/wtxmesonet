@@ -63,7 +63,7 @@ class Reader:
 
         _relocations = []
         if not pd.isna(s["Prevoius IDs"]):
-            for ident, lat, lon, d in zip(s["Prevoius IDs"].split("//"), s["Prev. Lat-decimals"].split("//"), s["Prev. Lon-decimals"].split("//"), s["Dates of Relocation (UTC YYYYMMDD)"].split("//")):
+            for ident, lat, lon, d in zip(str(s["Prevoius IDs"]).split("//"), str(s["Prev. Lat-decimals"]).split("//"), str(s["Prev. Lon-decimals"]).split("//"), str(s["Dates of Relocation (UTC YYYYMMDD)"]).split("//")):
                 _relocations.append((ident, float(lat), float(lon), date.fromisoformat(d))) # date is UTC
                 
         station = Station(
@@ -159,7 +159,7 @@ class Reader:
             x, y = offsets[ind]
             if (pos:=(x, y)) in station_position_map:
                 s = station_position_map[pos]
-                s.plot()
+                s.plot(True)
             else:
                 print(pos, "not found")
 

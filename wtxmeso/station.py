@@ -32,9 +32,9 @@ class Station:
     def df(self):
         return pd.concat(self.data) if self.data else None
 
-    def plot(self):
+    def plot(self, from_reader: bool = False):
         sp = StationPlot(self.name, self.df)
-        sp.show()
+        sp.show(from_reader)
 
 class StationPlot:
     def __init__(self, name: str, df: pd.DataFrame, xlabel="Time (UTC)"):
@@ -49,8 +49,8 @@ class StationPlot:
 
         self._plotter = InteractivePlotter(name, [self.wind_view, self.environment_view])
 
-    def show(self):
-        self._plotter.show()
+    def show(self, from_reader: bool = False):
+        self._plotter.show(existing_plot = from_reader)
 
     def _wind_panel(self, fig, ax):
         # "10m WD"

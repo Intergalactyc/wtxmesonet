@@ -116,14 +116,17 @@ class InteractivePlotter:
         self.fig.suptitle(f"{self.name} - {view_name} (View {self.current+1}/{len(self.views)})")
         self.fig.canvas.draw_idle()
 
-    def show(self):
+    def show(self, existing_plot: bool = False):
         self._draw_current_view()
 
-        try:
-            self.fig.canvas.manager.window.show()
-            self.fig.canvas.manager.window.activateWindow()
-            self.fig.canvas.manager.window.raise_()
-        except AttributeError:
-            pass
+        if existing_plot:
+            try:
+                self.fig.canvas.manager.window.show()
+                self.fig.canvas.manager.window.activateWindow()
+                self.fig.canvas.manager.window.raise_()
+            except AttributeError:
+                pass
 
-        self.fig.canvas.draw_idle()
+            self.fig.canvas.draw_idle()
+        else:
+            plt.show()
