@@ -121,9 +121,9 @@ class InteractivePlotter:
 
         if existing_plot:
             try:
-                self.fig.canvas.manager.window.show()
-                self.fig.canvas.manager.window.activateWindow()
-                self.fig.canvas.manager.window.raise_()
+                self.fig.canvas.manager.window.show() # type: ignore
+                self.fig.canvas.manager.window.activateWindow() # type: ignore
+                self.fig.canvas.manager.window.raise_() # type: ignore
             except AttributeError:
                 pass
 

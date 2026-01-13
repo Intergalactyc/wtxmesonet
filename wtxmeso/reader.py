@@ -13,7 +13,7 @@ _atmo_columns = list(_HEADER.loc[_HEADER["Inclusion"].isin({"all", "atmospheric"
 _agri_columns = list(_HEADER.loc[_HEADER["Inclusion"].isin({"all", "agricultural"}), "Column"])
 
 class Reader:
-    def __init__(self, station_file: str|os.PathLike, columns: str|list=None, *args, **kwargs):
+    def __init__(self, station_file: str|os.PathLike, columns: str|list|None=None, *args, **kwargs):
         self._columns = _all_columns
         if isinstance(columns, str):
             match columns.lower():
@@ -87,7 +87,7 @@ class Reader:
             df.loc[df["Precip"] > 1.5, "Precip"] = np.nan # World record rainfall in 1 minute is 1.23 in. - discard rainfall measurements > 1.5 in.
         return df
 
-    def load_file(self, path: str|os.PathLike, name: str = None, *, _tup: bool = False) -> pd.DataFrame:
+    def load_file(self, path: str|os.PathLike, name: str|None=None, *, _tup: bool = False) -> pd.DataFrame|tuple[pd.DataFrame, str]:
         if not os.path.isfile(path):
             raise FileNotFoundError(f"File {path} not found")
 
@@ -168,7 +168,7 @@ class Reader:
             x, y = sc.get_offsets()[i]
             annot.xy = (x, y)
             annot.set_text(station_names[i])
-            annot.get_bbox_patch().set_alpha(0.8)
+            annot.get_bbox_patch().set_alpha(0.8) # type: ignore
 
         def hover(event):
             vis = annot.get_visible()

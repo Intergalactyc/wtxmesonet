@@ -33,6 +33,8 @@ class Station:
         return pd.concat(self.data) if self.data else None
 
     def plot(self, from_reader: bool = False):
+        if self.df is None:
+            raise Exception(f"No data is associated with station {self.name}, nothing to plot")
         sp = StationPlot(self.name, self.df)
         sp.show(from_reader)
 
