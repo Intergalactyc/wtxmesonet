@@ -159,7 +159,7 @@ class Reader:
             x, y = offsets[ind]
             if (pos:=(x, y)) in station_position_map:
                 s = station_position_map[pos]
-                s.plot(True)
+                s.plot(from_reader = True)
             else:
                 print(pos, "not found")
 

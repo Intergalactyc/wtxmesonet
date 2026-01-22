@@ -32,10 +32,14 @@ class Station:
     def df(self):
         return pd.concat(self.data) if self.data else None
 
-    def plot(self, from_reader: bool = False):
+    def plot(self, time_interval: tuple|None=None, from_reader: bool=False):
         if self.df is None:
             raise Exception(f"No data is associated with station {self.name}, nothing to plot")
-        sp = StationPlot(self.name, self.df)
+        if time_interval is None:
+            df = self.df
+        else:
+            df = self.df.loc[time_interval[0]:time_interval[1]]
+        sp = StationPlot(self.name, df)
         sp.show(from_reader)
 
 class StationPlot:
