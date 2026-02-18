@@ -92,9 +92,9 @@ class Reader:
             raise FileNotFoundError(f"File {path} not found")
 
         df = pd.read_csv(path, header=None, names=self._columns)
-        df["Timestamp"] = df.apply(lambda row : f"{int(row['UTC Date'])}T{str(int(row['UTC Time'])).zfill(4)}", axis=1)
-        df["Timestamp"] = pd.to_datetime(df["Timestamp"]).dt.tz_localize("UTC")
-        df.set_index("Timestamp", drop=True, inplace=True)
+        df["timestamp"] = df.apply(lambda row : f"{int(row['UTC Date'])}T{str(int(row['UTC Time'])).zfill(4)}", axis=1)
+        df["timestamp"] = pd.to_datetime(df["timestamp"]).dt.tz_localize("UTC")
+        df.set_index("timestamp", drop=True, inplace=True)
         df.drop(columns=["UTC Date", "UTC Time", "Station ID"], inplace=True)
 
         if name is None: # default is to infer name (station ID) from filename
