@@ -26,6 +26,9 @@ Homepage = "https://github.com/Intergalactyc/wtxmesonet"
 [tool.setuptools.packages.find]
 include = ["wtxmeso", "wtxmeso.*"]
 
+[tool.setuptools.package-data]
+wtxmeso = ["data/*.csv"]
+
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
 
