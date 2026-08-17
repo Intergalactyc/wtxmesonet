@@ -1,5 +1,4 @@
 import matplotlib
-matplotlib.use("QtAgg")
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.lines import Line2D
@@ -84,6 +83,11 @@ class View:
 
 class InteractivePlotter:
     def __init__(self, name: str, views: list[View], figsize=(11.,6.5)):
+        # Forcing the backend here (rather than at module import time) keeps
+        # plain `import wtxmeso` (e.g. for Reader/Station data access, no
+        # plotting) usable in headless environments - only actually creating
+        # an InteractivePlotter requires Qt.
+        matplotlib.use("QtAgg")
         self.name = name
         self.views = views
         self.current = 0
